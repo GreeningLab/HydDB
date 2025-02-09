@@ -7,12 +7,12 @@ Sequences for [NiFe]-, [FeFe]-, and [Fe]-hydrogenases were previously complied i
 2. Greening C\*, Biswas A, Carere CR, Jackson CJ, Taylor MC, Stott MB, Cook GM, Morales SE\* (2016). Genomic and metagenomic surveys of hydrogenase distribution indicate H2 is a widely-utilised energy source for microbial growth and survival. The ISME Journal 10, 761-777<br />
 
 # HMM (2022 version)
-To identify highly divergent hydrogenases, the hmm can be used:
+To identify highly divergent hydrogenases, the hmm can be used:<br />
 hmmsearch --domT 0 -o match.txt --tblout hmmer_table.txt profile.hmm candidate.fasta
 
-Suggested WIP bit score thresholds for each class were:
-FeFe: 15.9 
-NiFe: 34.5 
-Fe: 54.4
+Suggested WIP bit score thresholds for each class were:<br />
+FeFe: 15.9 <br />
+NiFe: 34.5 <br />
+Fe: 54.4<br />
 
 Note: To reduce false-positives, we also recommend cross-compare hits from BLASTing the protein sequences.
