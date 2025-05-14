@@ -43,3 +43,25 @@ For more conservative WIP bit score cutoff for each class to use with the `--dom
 Note: To reduce false-positives, we also recommend cross-compare hits from BLASTing the protein sequences.
 
 # Simple hydrogenase classifier tool
+
+```bash
+wget http://github.com/bbuchfink/diamond/releases/download/v2.1.11/diamond-linux64.tar.gz
+tar xzf diamond-linux64.tar.gz
+# creating a diamond-formatted database file
+./diamond makedb --in All_hydrogenases.faa -d hyddb
+# running a search in blastp mode
+./diamond blastp -d hyddb.dmnd -q query_sequences.fasta -o output_hits.tsv
+
+
+
+./diamond blastp \
+    -q ./input/FeFe_hyd.faa \
+    -d $DBDIR/gtdb_r226_combined.dmnd \
+    -o ./output/FeFe-gtdb_r226-${DATE}.tsv \
+    --ultra-sensitive \
+    --id 0.2 \
+    --max-target-seqs 1 \
+    --header verbose \
+    --outfmt 6 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore full_sseq
+
+```
