@@ -56,7 +56,7 @@ wget http://github.com/bbuchfink/diamond/releases/download/v2.1.11/diamond-linux
 tar xzf diamond-linux64.tar.gz
 ```
 
-Second, create a diamond database of the HydDB sequences provided in this repository:
+Second, download the HydDB sequences provided in this repository (the `All_hydrogenases.faa` file), and create a diamond database (`.dmnd` file):
 
 ```bash
 
