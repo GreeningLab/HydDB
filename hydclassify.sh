@@ -18,15 +18,25 @@
 #
 # export PATH="$(pwd)/diamond:$PATH"
 
+if [[ $# -eq 0 ]]; then
+    >&2 echo "Error: must provide path to query fasta file"
+    >&2 echo "USAGE: $(basename $0) [QUERY_FASTA.faa]"
+    >&2 echo ""
+    >&2 echo "Requirements:"
+    >&2 echo "1. Ensure DIAMOND has been downloaded and adding to your path"
+    >&2 echo "2. Create a DIAMOND database of the HydDB fasta file"
+    exit 1
+fi
+
 QUERYFILE=$1
 OUTPUT=${QUERYFILE##*/}
 OUTPUT=${OUTPUT%.*}
 
 diamond blastp \
-    -q ${QUERYFILE} \
+    -q "${QUERYFILE}" \
     -d hyddb.dmnd \
     -o ${OUTPUT}-diamond_hits.tsv \
-    --id 50 \
+    --ultra-sensitive \
     --max-target-seqs 1 \
     --header simple \
     --outfmt 6 qseqid sseqid pident evalue bitscore full_sseq
