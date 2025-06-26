@@ -6,7 +6,7 @@ To run the original HydDB webserver locally, please see our [HydDB-webserver](ht
 
 # Amino acid sequences
 
-Sequences for [NiFe]-, [FeFe]-, and [Fe]-hydrogenases were previously complied in the two following papers:
+Sequences for \[NiFe\]-, \[FeFe\]-, and \[Fe\]-hydrogenases were previously complied in the two following papers:
 
 1. Søndergaard D\*, Pedersen CNS, Greening C\* (2016) HydDB: a web tool for hydrogenase classification and analysis. Scientific Reports 6, 34212
 2. Greening C\*, Biswas A, Carere CR, Jackson CJ, Taylor MC, Stott MB, Cook GM, Morales SE\* (2016). Genomic and metagenomic surveys of hydrogenase distribution indicate H2 is a widely-utilised energy source for microbial growth and survival. The ISME Journal 10, 761-777
@@ -38,15 +38,15 @@ To reduce false-positives, we recommend implementing the following steps:
 
 We recommend using the following WIP bit score cutoffs for each class to use with the `--domT` flag:
 
-* [FeFe]: 15.9
-* [NiFe]: 34.5
-* [Fe]: 54.4
+* \[FeFe\]: 15.9
+* \[NiFe\]: 34.5
+* \[Fe\]: 54.4
 
 If you want to reduce the frequency of false positive hits further, we recommend using these more conservative WIP bit score cutoff for each class to use with the `--domT` flag:
 
-* FeFe: 50
-* NiFe: 120
-* Fe: n/a
+* \[FeFe\]: 50
+* \[NiFe\]: 120
+* \[Fe\]: n/a
 
 # Simple hydrogenase classification with DIAMOND BLASTP
 
@@ -99,9 +99,9 @@ This repository also provides a simple bash script to run diamond blastp and the
 
 To reduce false positive hits, we suggest using the following sequence % identity score cutoffs for each class. These can be provided to `diamond blastp` using the `--id` flag:
 
-* [NiFe] = >50% for group 4, >30% for all other groups
-* [FeFe] = >45%
-* [Fe] = >50%
+* \[NiFe\] = >50% for group 4, >30% for all other groups
+* \[FeFe\] = >45%
+* \[Fe\] = >50%
 
 ## Citation
 
