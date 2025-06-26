@@ -13,7 +13,7 @@ Sequences for [NiFe]-, [FeFe]-, and [Fe]-hydrogenases were previously complied i
 
 # HMM (2022 version)
 
-To identify highly divergent hydrogenases, the HMM profile in this repo can be used with [HMMer](http://hmmer.org/):
+To identify highly divergent hydrogenases, the HMM profiles in this repo can be used with [HMMER](http://hmmer.org/):
 
 ```bash
 # search profile against a database
@@ -24,23 +24,29 @@ hmmsearch \
     --domtblout domains-tblout.tsv \
     --pfamtblout pfamtblout.pfam \
     --acc \
-    --domT <SCORE_CUTOFF> \
-    HydDB_MM2022.hmm \
-    query_sequences.fasta
+    --domT <BIT_SCORE_CUTOFF> \
+    HydDB_all_MM2022.hmm \
+    your_query_sequences.fasta
 ```
 
-Suggested WIP bit score cutoff for each class to use with the `--domT` flag:
+Please keep in mind that while HMMER is a sensitive tool for finding remote homologs, it is also prone to return false positive hits.
+To reduce false-positives, we recommend implementing the following steps:
 
-* FeFe: 15.9
-* NiFe: 34.5
-* Fe: 54.4
+1. Using bit score cutoffs in HMMER (see below)
+2. Cross-comparing hits from sequence based searches like BLAST or MMseqs2
+3. Checking the predicted structure of a HMMER hit with AlphaFold
 
-For more conservative WIP bit score cutoff for each class to use with the `--domT` flag:
+We recommend using the following WIP bit score cutoffs for each class to use with the `--domT` flag:
+
+* [FeFe]: 15.9
+* [NiFe]: 34.5
+* [Fe]: 54.4
+
+If you want to reduce the frequency of false positive hits further, we recommend using these more conservative WIP bit score cutoff for each class to use with the `--domT` flag:
 
 * FeFe: 50
 * NiFe: 120
-
-Note: To reduce false-positives, we also recommend cross-compare hits from BLASTing the protein sequences.
+* Fe: n/a
 
 # Simple hydrogenase classification with DIAMOND BLASTP
 
@@ -56,12 +62,12 @@ wget http://github.com/bbuchfink/diamond/releases/download/v2.1.11/diamond-linux
 tar xzf diamond-linux64.tar.gz
 ```
 
-Second, download the HydDB sequences provided in this repository (the `All_hydrogenases.faa` file), and create a diamond database (`.dmnd` file):
+Second, download the HydDB sequences provided in this repository (the `HydDB_all_hydrogenases.faa` file), and create a diamond database (`.dmnd` file):
 
 ```bash
 
 # create a DIAMOND formatted sequence database of the HydDB to search against
-./diamond makedb --in All_hydrogenases.faa -d hyddb
+./diamond makedb --in HydDB_all_hydrogenases.faa -d hyddb
 ```
 
 Now you can search your query sequences against the `hyddb.dmnd` database:
@@ -85,7 +91,7 @@ This produces a `.tsv` file of the diamond blastp results. To extract just your 
 awk 'NR>1{split($2,arr,/\|/); print $1, arr[3]}' output_hits.tsv | sed '1i query_id\tclosest_hydrogenase_group' > output_hyd_classification.tsv
 ```
 
-This repository provides a simple bash script to run diamond blastp and the subsequent awk step in one go. Make sure that 1) `diamond` has been installed and is 2) added to your `PATH`, and that 3) the `.dmnd` database of HydDB sequences has been is setup. Then run:
+This repository also provides a simple bash script to run diamond blastp and the subsequent awk step in one go. Make sure that 1) `diamond` has been installed and is 2) added to your `PATH`, and that 3) the `.dmnd` database of HydDB sequences has been is setup. Then run:
 
 ```bash
 ./hydclassify.sh [YOUR_QUERY.faa]
@@ -96,3 +102,26 @@ To reduce false positive hits, we suggest using the following sequence % identit
 * [NiFe] = >50% for group 4, >30% for all other groups
 * [FeFe] = >45%
 * [Fe] = >50%
+
+## Citation
+
+If you use the HydDB in your research, please cite the following:
+
+```bibtex
+@article{Søndergaard_2016,
+    author={Søndergaard, Dan and Pedersen, Christian N. S. and Greening, Chris},
+    title={HydDB: A web tool for hydrogenase classification and analysis},
+    year={2016},
+    journal={Scientific Reports},
+    DOI={10.1038/srep34212},
+    }
+
+@article{Greening_2015,
+    author={Greening, Chris and Biswas, Ambarish and Carere, Carlo R and Jackson, Colin J and Taylor, Matthew C and Stott, Matthew B and Cook, Gregory M and Morales, Sergio E},
+    title={Genomic and metagenomic surveys of hydrogenase distribution indicate H2 is a widely utilised energy source for microbial growth and survival}, 
+    year={2015},
+    journal={The ISME Journal},
+    DOI={10.1038/ismej.2015.153},
+}
+
+```
